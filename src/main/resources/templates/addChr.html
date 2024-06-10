@@ -1,0 +1,114 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <style>
+        .table-centered {
+            text-align: center;
+        }
+        .navbar {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .navbar-brand {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .navbar-nav {
+            margin-left: auto;
+        }
+        .navbar-nav > li {
+            margin-right: 20px;
+        }
+        .create-character-page {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .create-character-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+    </style>
+    <title>Создание персонажа DnD</title>
+
+</head>
+
+<body>
+<nav class="navbar">
+    <span class="navbar-brand">Пользователь: <span th:text="${username}">Unknown</span></span>
+    <ul class="navbar-nav">
+        <li><a href="/welcome" class="nav-link">Домой</a></li>
+        <li><a href="/logout" class="nav-link">Выйти</a></li>
+    </ul>
+</nav>
+
+<div class="container create-character-page">
+    <h1 class="create-character-header">Создание персонажа DnD</h1>
+    <form method="post" name="form">
+        <div class="label">Имя персонажа:</div>
+        <input name="name" type="text" class="form-control" id="name" placeholder="Введите имя персонажа">
+        <div class="label">Класс:</div>
+        <select class="form-control" id="clas" name="clas">
+            <option th:each="option : ${clas}" th:value="${option}" th:text="${option}"></option>
+        </select>
+        <div class="label">Предыстория:</div>
+        <select class="form-control" id="background" name="background">
+            <option th:each="option : ${back}" th:value="${option}" th:text="${option}"></option>
+        </select>
+
+        <div class="label">Мировоззрение:</div>
+        <select class="form-control" id="alignment" name="alignment">
+            <option value="Законопослушный добрый">Законопослушный добрый</option>
+            <option value="Нейтральный добрый">Нейтральный добрый</option>
+            <option value="Хаотичный добрый">Хаотичный добрый</option>
+            <option value="Законопослушный нейтральный">Законопослушный нейтральный</option>
+            <option value="Нейтральный">Нейтральный</option>
+            <option value="Хаотичный нейтральный">Хаотичный нейтральный</option>
+            <option value="Законопослушный злой">Законопослушный злой</option>
+            <option value="Нейтральный злой">Нейтральный злой</option>
+            <option value="Хаотичный злой">Хаотичный злой</option>
+        </select>
+
+        <div class="label">Раса:</div>
+        <select class="form-control" id="race" name=race>
+            <option th:each="option : ${races}" th:value="${option}" th:text="${option}"></option>
+        </select>
+
+        <div class="label">Характеристики:</div>
+        <table class="table table-centered">
+            <tr>
+                <td>Сила:</td>
+                <td><input type="number" name=strength class="form-control" id="strength" value="10" min="1" max="20"></td>
+            </tr>
+            <tr>
+                <td>Ловкость:</td>
+                <td><input type="number" name=dexterity class="form-control" id="dexterity" value="10" min="1" max="20"></td>
+            </tr>
+            <tr>
+                <td>Телосложение:</td>
+                <td><input type="number" name="constitution" class="form-control" id="constitution" value="10" min="1" max="20"></td>
+            </tr>
+            <tr>
+                <td>Интеллект:</td>
+                <td><input type="number" name=intelligence class="form-control" id="intelligence" value="10" min="1" max="20"></td>
+            </tr>
+            <tr>
+                <td>Мудрость:</td>
+                <td><input type="number" name=wisdom class="form-control" id="wisdom" value="10" min="1" max="20"></td>
+            </tr>
+            <tr>
+                <td>Харизма:</td>
+                <td><input type="number" name=charisma class="form-control" id="charisma" value="10" min="1" max="20"></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary">Сохранить персонажа</button>
+    </form>
+</div>
+</body>
+</html>

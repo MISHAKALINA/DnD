@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вам сюда нельзя</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .btn-403 {
+            border-radius: 10px;
+        }
+        .custom-message {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="d-flex flex-column justify-content-center align-items-center vh-100">
+    <img th:src="@{images/error.png}" alt="Logo" class="img-fluid" style="max-width: 300px;">
+    <h1 class="display-4">Ошибка</h1>
+    <a th:href="@{/welcome}" class="btn btn-primary btn-403">Вернуться на сайт</a>
+</div>
+</body>
+</html>

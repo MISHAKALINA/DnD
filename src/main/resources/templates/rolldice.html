@@ -1,0 +1,106 @@
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>Dice Roller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .table th,.table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .navbar {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .navbar-brand {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .navbar-nav {
+            margin-left: auto;
+        }
+        .navbar-nav > li {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar">
+
+    <span class="navbar-brand">Пользователь: <span th:text="${username}">Unknown</span></span>
+
+    <ul class="navbar-nav">
+
+        <li><a href="/welcome" class="nav-link">Домой</a></li>
+        <li><a href="/logout" class="nav-link">Выйти</a></li>
+
+    </ul>
+
+</nav>
+<div class="container">
+    <h1>Крутки</h1>
+    <form method="post" name="form" action="/roll">
+        <div class="form-group">
+            <label for="amount">Количество костей:</label>
+            <input type="number" id="amount" name="amount" value="1" min="1" class="form-control" oninput="if (this.value === '') { this.value = '1'; } else { this.value = this.value.replace(/[^0-9]/g, ''); }">
+        </div>
+        <div class="form-group">
+            <label for="type">Тип кости:</label>
+            <select id="type" name="type" class="form-control" th:value="${session.selectedOption}">
+                <option value="4">4</option>
+                <option value="6" selected>6</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="20">20</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="addition">Модификатор:</label>
+            <input type="number" id="addition" name="addition" value="0" class="form-control" oninput="if (this.value === '') { this.value = '0'; } else { this.value = this.value.replace(/[^0-9]/g, ''); }">
+        </div>
+        <div class="form-group">
+            <input type="checkbox" id="each" name="each">
+            <label for="each">Модификатор к каждому броску?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Кидай!</button>
+        <h1>Последние 10 круток</h1>
+        <table class="table">
+            <tr th:each="roll : ${rolls}">
+                <td th:text="${roll.amount.toString() + 'd' + roll.type.toString() + '+' + roll.addition.toString() + '=' + roll.result.toString() + '|Модификатор для каждого:' + roll.each.toString()}"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

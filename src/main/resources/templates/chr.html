@@ -1,0 +1,548 @@
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/chr.css}" rel="stylesheet" />
+    <title>Лист Персонажа</title>
+</head>
+<form class="charsheet" th:action="@{/saveCharacter}" method="post">>
+    <header>
+        <section class="charname">
+            <label for="charname">Имя персонажа</label>
+            <input id="charname" th:id="${'charname'}" name="charname" th:value="${chr.charname}" />
+        </section>
+        <section class="misc">
+            <ul>
+                <li>
+                    <label for="clas">Класс</label>
+                    <input id="clas" th:id="${'clas'}" name="clas" type="text" th:value="${chr.clas}" />
+                </li>
+                <li>
+                    <label for="level">Уровень</label>
+                    <input id="level" th:id="${'level'}" type="number" name="level" min="1" max="20" value="1" th:value="${chr.level}" />
+                </li>
+                <li>
+                    <label for="background">Предыстория</label>
+                    <input id="background" th:id="${'background'}" name="background" type="text" th:value="${chr.background}" />
+                </li>
+                <li>
+                    <label for="race">Раса</label>
+                    <input id="race" th:id="${'race'}" name="race" type="text" th:value="${chr.race}" />
+                </li>
+                <li>
+                    <label for="alignment">Мировоззрение</label>
+                    <input id="alignment" th:id="${'alignment'}" name="alignment" type="text" th:value="${chr.alignment}" />
+                </li>
+                <li>
+                    <label for="experiencepoints">Опыт</label>
+                    <input id="experiencepoints" th:id="${'experiencepoints'}" type="number" name="experiencepoints" th:value="${chr.experiencepoints}" min="0" value="0" placeholder="0"/>
+                </li>
+            </ul>
+        </section>
+    </header>
+    <main>
+        <section>
+            <section class="attributes">
+                <div class="scores">
+                    <ul>
+                        <li>
+                            <div class="score">
+                                <label for="Strengthscore">Сила</label>
+                                <input id = Strengthscore th:id="${'Strengthscore'}" name="Strengthscore" placeholder="10" th:value="${chr.Strengthscore}" oninput="updateStrengthValues(Math.floor((+this.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Strengthmod"></label><input id = "Strengthmod" th:id="${'Strengthmod'}" name="Strengthmod" placeholder="+0" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <label for="Dexterityscore">Ловкость</label>
+                                <input id = Dexterityscore th:id="${'Dexterityscore'}" name="Dexterityscore" placeholder="10" th:value="${chr.Dexterityscore}" oninput="updateDexterityValues(Math.floor((event.target.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Dexteritymod"></label><input id = "Dexteritymod" th:id="${'Dexteritymod'}" name="Dexteritymod" placeholder="+0" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <label for="Constitutionscore">Выносливость</label>
+                                <input id = Constitutionscore th:id="${'Constitutionscore'}" name="Constitutionscore" placeholder="10" th:value="${chr.Constitutionscore}" oninput="updateConstitutionValues(Math.floor((+this.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Constitutionmod"></label><input id = "Constitutionmod" th:id="${'Constitutionmod'}" name="Constitutionmod" placeholder="+0" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <label for="Intelligencescore">Интеллект</label>
+                                <input id = Intelligencescore th:id="${'Intelligencescore'}" name="Intelligencescore" placeholder="10" th:value="${chr.Intelligencescore}" oninput="updateIntelligenceValues(Math.floor((+this.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Intelligencemod" th:id="Intelligence-mod-label"></label>
+                                <input id="Intelligencemod" name="Intelligencemod" placeholder="+0" th:id="Intelligencemod" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <label for="Wisdomscore" th:id="Wisdom-score-label">Мудрость</label>
+                                <input id="Wisdomscore" name="Wisdomscore" placeholder="10" th:value="${chr.Wisdomscore}" th:id="Wisdomscore" oninput="updateWisdomValues(Math.floor((this.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Wisdommod" th:id="Wisdom-mod-label"></label>
+                                <input id="Wisdommod" name="Wisdommod" placeholder="+0" th:id="Wisdommod" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="score">
+                                <label for="Charismascore" th:id="Charisma-score-label">Харизма</label>
+                                <input id="Charismascore" name="Charismascore" placeholder="10" th:value="${chr.Charismascore}" th:id="Charismascore" oninput="updateCharismaValues(Math.floor((this.value - 10) / 2))" />
+                            </div>
+                            <div class="modifier">
+                                <label for="Charismamod" th:id="Charisma-mod-label"></label>
+                                <input id="Charismamod" name="Charismamod" placeholder="+0" th:id="Charismamod" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="attr-applications">
+                    <div class="inspiration box">
+                        <div class="label-container">
+                            <label for="inspiration">Вдохновение</label>
+                        </div>
+                        <input id="inspiration" name="inspiration" type="checkbox" th:id="inspiration" />
+                    </div>
+                    <div class="proficiencybonus box">
+                        <div class="label-container">
+                            <label for="BM" th:id="proficiencybonus-label">Бонус мастерства</label>
+                        </div>
+                        <input id="BM" name="BM" th:value="${chr.BM}" placeholder="+2" th:id="proficiencybonus" />
+                    </div>
+                    <div class="saves list-section box">
+                        <ul>
+                            <li>
+                                <label for="Strength-save" th:id="Strength-save-label">Сила</label>
+                                <input id="Strength-save" name="Strength-save" placeholder="+0" type="text" th:id="Strength-save" />
+                                <label for="Strength-save-prof" th:id="Strength-save-prof-label"></label><input id="Strength-save-prof" name="Strength-save-prof" type="checkbox" th:id="Strength-save-prof" />
+                            </li>
+                            <li>
+                                <label for="Dexterity-save" th:id="Dexterity-save-label">Ловкость</label>
+                                <input id="Dexterity-save" name="Dexterity-save" placeholder="+0" type="text" th:id="Dexterity-save" />
+                                <label for="Dexterity-save-prof" th:id="Dexterity-save-prof-label"></label><input id="Dexterity-save-prof" name="Dexterity-save-prof" type="checkbox" th:id="Dexterity-save-prof" />
+                            </li>
+                            <li>
+                                <label for="Constitution-save" th:id="Constitution-save-label">Телосложение</label>
+                                <input id="Constitution-save" name="Constitution-save" placeholder="+0" type="text" th:id="Constitution-save" />
+                                <label for="Constitution-save-prof" th:id="Constitution-save-prof-label"></label><input id="Constitution-save-prof" name="Constitution-save-prof" type="checkbox" th:id="Constitution-save-prof" />
+                            </li>
+                            <li>
+                                <label for="Intelligence-save" th:id="Intelligence-save-label">Интеллект</label>
+                                <input id="Intelligence-save" name="Intelligence-save" placeholder="+0" type="text" th:id="Intelligence-save" />
+                                <label for="Intelligence-save-prof" th:id="Intelligence-save-prof-label"></label><input id="Intelligence-save-prof" name="Intelligence-save-prof" type="checkbox" th:id="Intelligence-save-prof" />
+                            </li>
+                            <li>
+                                <label for="Wisdom-save" th:id="Wisdom-save-label">Мудрость</label>
+                                <input id="Wisdom-save" name="Wisdom-save" placeholder="+0" type="text" th:id="Wisdom-save" />
+                                <label for="Wisdom-save-prof" th:id="Wisdom-save-prof-label"></label><input id="Wisdom-save-prof" name="Wisdom-save-prof" type="checkbox" th:id="Wisdom-save-prof" />
+                            </li>
+                            <li>
+                                <label for="Charisma-save" th:id="Charisma-save-label">Харизма</label>
+                                <input id="Charisma-save" name="Charisma-save" placeholder="+0" type="text" th:id="Charisma-save" />
+                                <label for="Charisma-save-prof" th:id="Charisma-save-prof-label"></label><input id="Charisma-save-prof" name="Charisma-save-prof" type="checkbox" th:id="Charisma-save-prof" />
+                            </li>
+                        </ul>
+                        <div class="label" th:id="saves-label">
+                            Спасброски
+                        </div>
+                    </div>
+                    <div class="skills list-section box">
+                        <ul>
+                            <li>
+                                <label for="Acrobatics" th:id="Acrobatics-label">Акробатика <span class="skill">(Dex)</span></label>
+                                <input id="Acrobatics" name="Acrobatics" placeholder="+0" type="text" th:id="Acrobatics" />
+                                <label for="Acrobatics-prof" th:id="Acrobatics-prof-label"></label><input id="Acrobatics-prof" name="Acrobatics-prof" type="checkbox" th:id="Acrobatics-prof" />
+                            </li>
+                            <li>
+                                <label for="Animal Handling" th:id="Animal-Handling-label">Уход за животными <span class="skill">(Wis)</span></label>
+                                <input id="Animal Handling" name="Animal Handling" placeholder="+0" type="text" />
+                                <label for="Animal Handling-prof" th:id="Animal-Handling-prof-label"></label><input id="Animal Handling-prof" name="Animal Handling-prof" type="checkbox" th:id="Animal-Handling-prof" />
+                            </li>
+                            <li>
+                                <label for="Arcana" th:id="Arcana-label">Магия <span class="skill">(Int)</span></label>
+                                <input id="Arcana" name="Arcana" placeholder="+0" type="text" th:id="Arcana" />
+                                <label for="Arcana-prof" th:id="Arcana-prof-label"></label><input id="Arcana-prof" name="Arcana-prof" type="checkbox" th:id="Arcana-prof" />
+                            </li>
+                            <li>
+                                <label for="Athletics" th:id="Athletics-label">Атлетика <span class="skill">(Str)</span></label>
+                                <input id="Athletics" name="Athletics" placeholder="+0" type="text" th:id="Athletics" />
+                                <label for="Athletics-prof" th:id="Athletics-prof-label"></label><input id="Athletics-prof" name="Athletics-prof" type="checkbox" th:id="Athletics-prof" />
+                            </li>
+                            <li>
+                                <label for="Deception" th:id="Deception-label">Обман <span class="skill">(Cha)</span>
+                                </label><input id="Deception" name="Deception" placeholder="+0" type="text" th:id="Deception" />
+                                <label for="Deception-prof" th:id="Deception-prof-label"></label><input id="Deception-prof" name="Deception-prof" type="checkbox" th:id="Deception-prof" />
+                            </li>
+                            <li>
+                                <label for="History" th:id="History-label">История <span class="skill">(Int)</span>
+                                </label><input id="History" name="History" placeholder="+0" type="text" th:id="History" />
+                                <label for="History-prof" th:id="History-prof-label"></label><input id="History-prof" name="History-prof" type="checkbox" th:id="History-prof" />
+                            </li>
+                            <li>
+                                <label for="Insight" th:id="Insight-label">Проницательность <span class="skill">(Wis)</span>
+                                </label><input id="Insight" name="Insight" placeholder="+0" type="text" th:id="Insight" />
+                                <label for="Insight-prof" th:id="Insight-prof-label"></label><input id="Insight-prof" name="Insight-prof" type="checkbox" th:id="Insight-prof" />
+                            </li>
+                            <li>
+                                <label for="Intimidation" th:id="Intimidation-label">Устрашение <span class="skill">(Cha)</span>
+                                </label><input id="Intimidation" name="Intimidation" placeholder="+0" type="text" th:id="Intimidation" />
+                                <label for="Intimidation-prof" th:id="Intimidation-prof-label"></label><input id="Intimidation-prof" name="Intimidation-prof" type="checkbox" th:id="Intimidation-prof" />
+                            </li>
+                            <li>
+                                <label for="Investigation" th:id="Investigation-label">Расследованние <span class="skill">(Int)</span></label>
+                                <input id="Investigation" name="Investigation" placeholder="+0" type="text" th:id="Investigation" />
+                                <label for="Investigation-prof" th:id="Investigation-prof-label"></label><input id="Investigation-prof" name="Investigation-prof" type="checkbox" th:id="Investigation-prof" />
+                            </li>
+                            <li>
+                                <label for="Medicine" th:id="Medicine-label">Медицина <span class="skill">(Wis)</span></label>
+                                <input id="Medicine" name="Medicine" placeholder="+0" type="text" th:id="Medicine" />
+                                <label for="Medicine-prof" th:id="Medicine-prof-label"></label><input id="Medicine-prof" name="Medicine-prof" type="checkbox" th:id="Medicine-prof" />
+                            </li>
+                            <li>
+                                <label for="Nature" th:id="Nature-label">Природа <span class="skill">(Int)</span></label>
+                                <input id="Nature" name="Nature" placeholder="+0" type="text" th:id="Nature" />
+                                <label for="Nature-prof" th:id="Nature-prof-label"></label><input id="Nature-prof" name="Nature-prof" type="checkbox" />
+                            </li>
+                            <li>
+                                <label for="Perception" th:id="Perception-label">Восприятие <span class="skill">(Wis)</span></label>
+                                <input id="Perception" name="Perception" placeholder="+0" type="text" th:id="Perception" />
+                                <label for="Perception-prof" th:id="Perception-prof-label"></label><input id="Perception-prof" name="Perception-prof" type="checkbox" th:id="Perception-prof" />
+                            </li>
+                            <li>
+                                <label for="Performance" th:id="Performance-label">Выступление <span class="skill">(Cha)</span></label>
+                                <input id="Performance" name="Performance" placeholder="+0" type="text" th:id="Performance" />
+                                <label for="Performance-prof" th:id="Performance-prof-label"></label><input id="Performance-prof" name="Performance-prof" type="checkbox" th:id="Performance-prof" />
+                            </li>
+                            <li>
+                                <label for="Persuasion" th:id="Persuasion-label">Убеждение <span class="skill">(Cha)</span></label>
+                                <input id="Persuasion" name="Persuasion" placeholder="+0" type="text" th:id="Persuasion" />
+                                <label for="Persuasion-prof" th:id="Persuasion-prof-label"></label><input id="Persuasion-prof" name="Persuasion-prof" type="checkbox" th:id="Persuasion-prof" />
+                            </li>
+                            <li>
+                                <label for="Religion" th:id="Religion-label">Религия <span class="skill">(Int)</span></label>
+                                <input id="Religion" name="Religion" placeholder="+0" type="text" th:id="Religion" />
+                                <label for="Religion-prof" th:id="Religion-prof-label"></label><input id="Religion-prof" name="Religion-prof" type="checkbox" th:id="Religion-prof" />
+                            </li>
+                            <li>
+                                <label for="Sleight of Hand" th:id="Sleight-of-Hand-label">Ловкость рук <span class="skill">(Dex)</span></label>
+                                <input id="Sleight of Hand" name="Sleight of Hand" placeholder="+0" type="text" th:id="Sleight-of-Hand" />
+                                <label for="Sleight of Hand-prof" th:id="Sleight-of-Hand-prof-label"></label><input id="Sleight of Hand-prof" name="Sleight of Hand-prof" type="checkbox" th:id="Sleight-of-Hand-prof" />
+                            </li>
+                            <li>
+                                <label for="Stealth" th:id="Stealth-label">Скрытность <span class="skill">(Dex)</span></label>
+                                <input id="Stealth" name="Stealth" placeholder="+0" type="text" th:id="Stealth" />
+                                <label for="Stealth-prof" th:id="Stealth-prof-label"></label><input id="Stealth-prof" name="Stealth-prof" type="checkbox" th:id="Stealth-prof" />
+                            </li>
+                            <li>
+                                <label for="Survival" th:id="Survival-label">Выживание <span class="skill">(Wis)</span></label>
+                                <input id="Survival" name="Survival" placeholder="+0" type="text" th:id="Survival" />
+                                <label for="Survival-prof" th:id="Survival-prof-label"></label><input id="Survival-prof" name="Survival-prof" type="checkbox" th:id="Survival-prof" />
+                            </li>
+                        </ul>
+                        <div class="label">
+                            Умения
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="passive-perception box">
+                <div class="label-container">
+                    <label for="passiveperception" th:id="passiveperception-label">Пассивная мудрость (внимательность)</label>
+                </div>
+                <input id="passiveperception" name="passiveperception" placeholder="10" th:id="passiveperception" />
+            </div>
+            <div class="otherprofs box textblock">
+                <label for="otherprofs" th:id="otherprofs-label">Прочие владения и языки</label>
+                <textarea id="otherprofs" name="otherprofs" th:text="${chr.otherprofs}" th:id="otherprofs"></textarea>
+            </div>
+        </section>
+        <section>
+            <section class="combat">
+                <div class="armorclass">
+                    <div>
+                        <label for="ac" th:id="ac-label">КД</label>
+                        <input id="ac" name="ac" placeholder="10" th:value="${chr.ac}" type="text" th:id="ac" />
+                    </div>
+                </div>
+                <div class="initiative">
+                    <div>
+                        <label for="initiative" th:id="initiative-label">Инициатива</label>
+                        <input id="initiative" name="initiative" placeholder="+0" type="text" th:id="initiative" />
+                    </div>
+                </div>
+                <div class="speed">
+                    <div>
+                        <label for="speed" th:id="speed-label">Скорость</label>
+                        <input id="speed" name="speed" placeholder="30" th:value="${chr.speed}" type="text" th:id="speed" />
+                    </div>
+                </div>
+                <div class="hp">
+                    <div class="regular">
+                        <div class="max">
+                            <label for="maxhp" th:id="maxhp-label">Максимум хитов</label>
+                            <input id="maxhp" name="maxhp" placeholder="10" th:value="${chr.maxhp}" type="text" th:id="maxhp" />
+                        </div>
+                        <div class="current">
+                            <label for="currenthp" th:id="currenthp-label">Текущие хиты</label>
+                            <input id="currenthp" name="currenthp" th:value="${chr.curhp}" type="text" th:id="currenthp" />
+                        </div>
+                    </div>
+                    <div class="temporary">
+                        <label for="temphp" th:id="temphp-label">Временные хиты</label>
+                        <input id="temphp" name="temphp" th:value="${chr.temphp}" placeholder="0" type="text" th:id="temphp" />
+                    </div>
+                </div>
+                <div class="hitdice">
+                    <div>
+                        <div class="total">
+                            <label for="totalhd" th:id="totalhd-label">Итого</label>
+                            <input id="totalhd" name="totalhd" placeholder="2к10" th:value="${chr.hitDice}" type="text" th:id="totalhd" />
+                        </div>
+                        <div class="remaining">
+                            <label for="hitDice" th:id="remaininghd-label">Кость хитов</label>
+                            <input id="hitDice" th:value="${chr.hitDice}" name="hitDice" type="text" th:id="remaininghd" />
+                        </div>
+                    </div>
+                </div>
+                <div class="deathsaves">
+                    <div>
+                        <div class="label">
+                            <label th:id="deathsaves-label">Спасброски от смерти</label>
+                        </div>
+                        <div class="deathsaves">
+                            <div>
+                                <div class="label">
+                                    <label th:id="death-saves-label">Death Saves</label>
+                                </div>
+                                <div class="marks">
+                                    <div class="deathsuccesses">
+                                        <label th:id="death-successes-label">Successes</label>
+                                        <div class="bubbles">
+                                            <label th:id="death-success-1-label">
+                                                <input id="deathsuccess1" name="deathsuccess1" type="checkbox" th:id="deathsuccess1" />
+                                            </label>
+                                            <label th:id="death-success-2-label">
+                                                <input id="deathsuccess2" name="deathsuccess2" type="checkbox" th:id="deathsuccess2" />
+                                            </label>
+                                            <label th:id="death-success-3-label">
+                                                <input id="deathsuccess3" name="deathsuccess3" type="checkbox" th:id="deathsuccess3" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="deathfails">
+                                        <label th:id="death-fails-label">Failures</label>
+                                        <div class="bubbles">
+                                            <label th:id="death-fail-1-label">
+                                                <input id="deathfail1" name="deathfail1" type="checkbox" th:id="deathfail1" />
+                                            </label>
+                                            <label th:id="death-fail-2-label">
+                                                <input id="deathfail2" name="deathfail2" type="checkbox" th:id="deathfail2" />
+                                            </label>
+                                            <label th:id="death-fail-3-label">
+                                                <input id="deathfail3" name="deathfail3" type="checkbox" th:id="deathfail3" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+            <section class="attacksandspellcasting">
+                <div>
+                    <label>Атаки и заклинания</label>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>
+                                Название
+                            </th>
+                            <th>
+                                Бонус атаки
+                            </th>
+                            <th>
+                                Урон/вид
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <label>
+                                    <input name="atkname1" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkbonus1" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkdamage1" type="text" />
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    <input name="atkname2" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkbonus2" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkdamage2" type="text" />
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    <input name="atkname3" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkbonus3" type="text" />
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input name="atkdamage3" type="text" />
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <label>
+                        <textarea></textarea>
+                    </label>
+                </div>
+            </section>
+        <section class="equipment">
+            <div>
+                <label th:id="equipment-label">Снаряжение</label>
+                <div class="money">
+                    <ul>
+                        <li>
+                            <label for="cp" th:id="cp-label">мм</label>
+                            <input id="cp" th:value="${chr.cp}" name="cp" th:id="cp" />
+                        </li>
+                        <li>
+                            <label for="sp" th:id="sp-label">см</label>
+                            <input id="sp" th:value="${chr.sp}" name="sp" th:id="sp" />
+                        </li>
+                        <li>
+                            <label for="ep" th:id="ep-label">эм</label>
+                            <input id="ep" th:value="${chr.ep}" name="ep" th:id="ep" />
+                        </li>
+                        <li>
+                            <label for="gp" th:id="gp-label">зм</label>
+                            <input id="gp" th:value="${chr.gp}" name="gp" th:id="gp" />
+                        </li>
+                        <li>
+                            <label for="pp" th:id="pp-label">пм</label>
+                            <input id="pp" th:value="${chr.pp}" name="pp" th:id="pp" />
+                        </li>
+                    </ul>
+                </div>
+                <label th:id="equip">
+                    <textarea th:id="equip" th:text="${chr.equip}" placeholder="Ваше снаряжение"></textarea>
+                </label>
+            </div>
+        </section>
+        <section>W
+            <section class="flavor">
+                <div class="personality">
+                    <label for="personality" th:id="personality-label">Черты характера</label>
+                    <textarea id="personality" th:text="${chr.personality}" placeholder="Черты характера" name="personality" th:id="personality"></textarea>
+                </div>
+                <div class="ideals">
+                    <label for="ideals" th:id="ideals-label">Идеалы</label>
+                    <textarea id="ideals" th:text="${chr.ideals}" placeholder="Идеалы" name="ideals" th:id="ideals"></textarea>
+                </div>
+                <div class="bonds">
+                    <label for="bonds" th:id="bonds-label">Привязанности</label>
+                    <textarea id="bonds" th:text="${chr.bonds}" placeholder="Привязанности" name="bonds" th:id="bonds"></textarea>
+                </div>
+                <div class="flaws">
+                    <label for="flaws" th:id="flaws-label">Слабости</label>
+                    <textarea id="flaws" th:text="${chr.flaws}" placeholder="Слабости" name="flaws" th:id="flaws"></textarea>
+                </div>
+            </section>
+        </section>
+        <section class="features">
+            <div>
+                <label for="features" th:id="features-label">Умения и особенности</label>
+                <textarea id="features" th:text="${chr.features}" name="features" th:id="features"></textarea>
+            </div>
+        </section>
+    </main>
+    <button type="submit">Сохранить</button>
+    <script> function updateStrengthValues(value) {
+            document.getElementById('Strengthmod').value = value;
+    document.getElementById('Strength-save').value = value;
+    document.getElementById('Athletics').value = value;
+    }
+
+    function updateDexterityValues(value) {
+    document.getElementById('Dexteritymod').value = value;
+    document.getElementById('Dexterity-save').value = value;
+    document.getElementById('Acrobatics').value = value;
+    document.getElementById('Sleight of Hand').value = value;
+    document.getElementById('Stealth').value = value;
+    document.getElementById('initiative').value = value;
+    }
+
+    function updateConstitutionValues(value) {
+    document.getElementById("Constitutionmod").value = value;
+    document.getElementById("Constitution-save").value = value;
+    }
+
+    function updateIntelligenceValues(value) {
+    document.getElementById("Intelligencemod").value = value;
+    document.getElementById("Intelligence-save").value = value;
+    document.getElementById("Religion").value = value;
+    document.getElementById("Nature").value = value;
+    document.getElementById("Investigation").value = value;
+    document.getElementById("Intimidation").value = value;
+    document.getElementById("History").value = value;
+    document.getElementById("Arcana").value = value;
+    }
+
+    function updateWisdomValues(value) {
+    document.getElementById('Wisdommod').value = value;
+    document.getElementById('Wisdom-save').value = value;
+    document.getElementById('Animal Handling').value = value;
+    document.getElementById('Insight').value = value;
+    document.getElementById('Medicine').value = value;
+    document.getElementById('Perception').value = value;
+    document.getElementById('Survival').value = value;
+    document.getElementById('passiveperception').value = 10 + value;
+    }
+
+    function updateCharismaValues(value) {
+    document.getElementById('Charismamod').value = value;
+    document.getElementById('Charisma-save').value = value;
+    document.getElementById('Deception').value = value;
+    document.getElementById('Intimidation').value = value;
+    document.getElementById('Performance').value = value;
+    document.getElementById('Persuasion').value = value;
+    }
+    </script>
+</form>
